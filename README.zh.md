@@ -76,14 +76,14 @@ YAML
 三种来源任选其一，装的是同一个插件：
 
 ```bash
-# npm（发布后推荐；安装的是预构建文件，无需构建授权）
-dsh plugin --profile web add dsh-sound-notify
-
-# 直接从 GitHub 安装
+# 直接从 GitHub 安装（当前可用）
 dsh plugin --profile web add github:hifengzy/dsh-sound-notify
 
-# 安装最新 GitHub Release 上的预构建 tarball
+# 安装最新 GitHub Release 上的预构建 tarball（当前可用）
 dsh plugin --profile web add https://github.com/hifengzy/dsh-sound-notify/releases/latest/download/dsh-sound-notify.tgz
+
+# npm（包发布后可用；见 docs/PUBLISHING.md）
+dsh plugin --profile web add dsh-sound-notify
 ```
 
 安装后重启对应应用。`dsh plugin add` 会把包装进 profile 的 `node_modules`，并把 `dsh-sound-notify` 追加到 `dsh.profile.bundles`；包内自带的 `cordis.patch.yml` 负责挂载插件行。

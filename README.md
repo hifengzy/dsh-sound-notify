@@ -76,14 +76,14 @@ YAML
 Pick whichever source you prefer — all of them are the same plugin:
 
 ```bash
-# npm (recommended once published; installs prebuilt files, no build approval)
-dsh plugin --profile web add dsh-sound-notify
-
-# directly from GitHub
+# directly from GitHub (works today)
 dsh plugin --profile web add github:hifengzy/dsh-sound-notify
 
-# prebuilt tarball attached to the latest GitHub Release
+# prebuilt tarball attached to the latest GitHub Release (works today)
 dsh plugin --profile web add https://github.com/hifengzy/dsh-sound-notify/releases/latest/download/dsh-sound-notify.tgz
+
+# npm (after the package is published; see docs/PUBLISHING.md)
+dsh plugin --profile web add dsh-sound-notify
 ```
 
 Restart the profile's app after installing. `dsh plugin add` installs the package into the profile and appends `dsh-sound-notify` to `dsh.profile.bundles`; the package's own `cordis.patch.yml` mounts the plugin row.
