@@ -66,3 +66,11 @@ jobs:
           grep -q "dsh-sound-notify" "${DSH_HOME:-$HOME/.dsh}/profiles/ci-web/package.json"
           test -f "${DSH_HOME:-$HOME/.dsh}/profiles/ci-web/node_modules/dsh-sound-notify/lib/client.js"
           test -f "${DSH_HOME:-$HOME/.dsh}/profiles/ci-web/node_modules/dsh-sound-notify/sounds/success.aac"
+
+      - name: Install from the GitHub repository as well
+        run: |
+          dsh --profile ci-github --from-default-profile web --dump-config >/dev/null
+          dsh plugin --profile ci-github add "github:${GITHUB_REPOSITORY}"
+          dsh --profile ci-github --dump-config > ci-github.dump.yml
+          grep -q "name: dsh-sound-notify" ci-github.dump.yml
+          test -f "${DSH_HOME:-$HOME/.dsh}/profiles/ci-github/node_modules/dsh-sound-notify/lib/client.js"
