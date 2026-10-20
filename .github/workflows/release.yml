@@ -1,0 +1,58 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  release:
+    name: release ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    env:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: npm test
+      - run: npm run verify
+
+      - name: Check tag matches package version
+        run: |
+          EXPECTED="v$(node -p "require('./package.json').version")"
+          test "$EXPECTED" = "$GITHUB_REF_NAME" || {
+            echo "tag $GITHUB_REF_NAME does not match package version $EXPECTED" >&2
+            exit 1
+          }
+
+      - name: Pack the release tarball
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          npm pack >/dev/null
+          cp "dsh-sound-notify-${VERSION}.tgz" dsh-sound-notify.tgz
+
+      - name: Create or update the GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" dsh-sound-notify.tgz --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dsh-sound-notify.tgz \
+              --title "dsh-sound-notify $GITHUB_REF_NAME" \
+              --generate-notes
+          fi
+
+      - name: Publish to npm
+        if: env.NPM_TOKEN != ''
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance

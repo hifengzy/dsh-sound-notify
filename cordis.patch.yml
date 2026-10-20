@@ -1,0 +1,15 @@
+# dsh-sound-notify bundle patch.
+#
+# Installing this package through the official CLI —
+#
+#   dsh plugin --profile <name> add /path/to/dsh-sound-notify
+#
+# — appends `dsh-sound-notify` to the profile's `dsh.profile.bundles`, and the
+# profile boot merges this patch (one insert of the plugin row) on its own.
+#
+# For the Electron-owned `desktop` profile (which the CLI refuses to manage),
+# copy this package under `$DSH_HOME/profiles/desktop/node_modules/` and add the
+# same insert to the profile's own `cordis.patch.yml`.
+- insert:
+    - id: sound-notify
+      name: 'dsh-sound-notify'

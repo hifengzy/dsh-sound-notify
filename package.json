@@ -1,0 +1,78 @@
+{
+  "name": "dsh-sound-notify",
+  "version": "0.1.0",
+  "description": "Sound notifications for DeepSeek Harness (DSH): play a sound when a task completes, fails, or waits for approval, with per-category switches.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "lib/logic.js",
+    "lib/player.js",
+    "sounds/*.aac",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "verify": "node scripts/verify-package.mjs",
+    "prepack": "npm run verify && npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hifengzy/dsh-sound-notify.git"
+  },
+  "homepage": "https://github.com/hifengzy/dsh-sound-notify#readme",
+  "bugs": {
+    "url": "https://github.com/hifengzy/dsh-sound-notify/issues"
+  },
+  "author": "fengzhuoyu <hifengzy@qq.com>",
+  "license": "MIT",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "deepseek",
+    "sound",
+    "notification",
+    "notifications",
+    "audio",
+    "macos",
+    "afplay"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": ">=3.18.1 <4"
+  },
+  "devDependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1"
+  }
+}
