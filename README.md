@@ -150,11 +150,11 @@ npm pack        # prebuilt tarball for releases
 
 CI (`.github/workflows/ci.yml`) runs the test suite on Node 20/22/24, verifies the package, and performs a real install smoke test against the latest published `@deepseek-ai/dsh`: it creates a web profile, installs the packed tarball with `dsh plugin add`, and asserts the plugin composes into the profile tree.
 
-Tagging `v*` runs `.github/workflows/release.yml`, which attaches the tarball to a GitHub Release and publishes to npm when an `NPM_TOKEN` secret is configured.
+Tagging `v*` runs `.github/workflows/release.yml`, which attaches the tarball to a GitHub Release and publishes to npm when an `NPM_TOKEN` secret is configured. See [docs/PUBLISHING.md](docs/PUBLISHING.md) for the npm-token and catalog-submission steps.
 
 ## Community
 
-The plugin is prepared for the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which is what the DSH plugin market (`dshmarket`) reads. Once the catalog entry is merged, searching for “sound” / “notification” in DSH finds it. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
+The plugin is prepared for the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which is what the DSH plugin market (`dshmarket`) reads; `awesome-dsh-plugin.yml` is ready in [`community/`](community/) and the submission helper is `scripts/submit-to-catalog.sh` (the catalog requires the repository to be at least 1 day old). Once merged, searching for “sound” / “notification” in DSH finds it. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
 
 ## License
 

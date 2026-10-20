@@ -150,11 +150,11 @@ npm pack        # 生成发布用 tarball
 
 CI（`.github/workflows/ci.yml`）在 Node 20/22/24 上跑测试与打包自检，并对最新发布的 `@deepseek-ai/dsh` 做真实安装冒烟测试：创建 web profile、用 `dsh plugin add` 安装打包出的 tarball，并断言插件已组合进 profile 树。
 
-推送 `v*` tag 会触发 `.github/workflows/release.yml`：把 tarball 附加到 GitHub Release，并在配置了 `NPM_TOKEN` secret 时发布到 npm。
+推送 `v*` tag 会触发 `.github/workflows/release.yml`：把 tarball 附加到 GitHub Release，并在配置了 `NPM_TOKEN` secret 时发布到 npm。npm token 配置与目录投稿步骤见 [docs/PUBLISHING.md](docs/PUBLISHING.md)。
 
 ## 社区收录
 
-插件已按 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 目录格式准备（`category: notify`），该目录也是 DSH 插件市场（`dshmarket`）的数据源。收录合并后，在 DSH 里搜索「sound」/「通知」即可找到。仓库 topic：`dsh-plugin`、`deepseek-harness`、`dsh`。
+插件已按 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 目录格式准备（`category: notify`），该目录也是 DSH 插件市场（`dshmarket`）的数据源；条目文件已放在 [`community/`](community/)，投稿脚本为 `scripts/submit-to-catalog.sh`（目录要求仓库创建满 1 天）。收录合并后，在 DSH 里搜索「sound」/「通知」即可找到。仓库 topic：`dsh-plugin`、`deepseek-harness`、`dsh`。
 
 ## 许可证
 
