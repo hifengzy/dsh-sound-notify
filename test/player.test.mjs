@@ -25,6 +25,7 @@ test('playSound spawns the player for an existing packaged file', () => {
   try {
     const ok = playSound('success', {
       soundDir: dir,
+      platform: 'darwin',
       spawn: (command, args, options) => {
         spawned.push({ command, args, options })
         return { on() {}, unref() {} }
