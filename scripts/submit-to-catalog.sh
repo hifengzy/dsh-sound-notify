@@ -32,6 +32,13 @@ OWNER="${REPO%%/*}"
 FORK="$OWNER/awesome-dsh-plugin"
 gh repo view "$FORK" >/dev/null 2>&1 || gh repo fork "$CATALOG" --clone=false
 
+# A fresh fork is not immediately readable, so wait for it before cloning.
+for _ in $(seq 1 40); do
+  gh repo view "$FORK" >/dev/null 2>&1 && break
+  sleep 2
+done
+gh repo view "$FORK" >/dev/null 2>&1 || { echo "error: fork $FORK is not available yet" >&2; exit 1; }
+
 WORKDIR="$(mktemp -d)"
 trap 'rm -rf "$WORKDIR"' EXIT
 gh repo clone "$FORK" "$WORKDIR/catalog" -- --depth=1
