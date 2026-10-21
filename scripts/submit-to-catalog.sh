@@ -58,4 +58,4 @@ gh pr create --repo "$CATALOG" \
 - Category: notify
 - Declares \`dsh.bundle\` (installable via \`dsh plugin add\`) and \`dsh.client\` (settings UI)
 - Adds only \`$ENTRY_NAME\`" \
-  --head "$FORK:$(git branch --show-current)"
+  --head "$OWNER:$(git branch --show-current)"
