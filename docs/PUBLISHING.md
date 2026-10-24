@@ -37,23 +37,19 @@ npm publish --access public
 
 The package name `dsh-sound-notify` was verified available on 2026-10-21.
 
-## awesome-dsh-plugin catalog (24h repo-age rule)
+## awesome-dsh-plugin catalog — submitted and merged
 
 The DSH plugin market (`dshmarket`) reads
-[awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin),
-which requires the submitted repository to be **at least 1 day old** (checked
-by CI). The prepared entry is `community/awesome-dsh-plugin.yml`; the source
-repository's topics already include the required `dsh-plugin`.
+[awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin).
+The entry was merged in PR
+[#8535](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/8535)
+(category `notify`) and is live in the public feed:
+<https://awesome-dsh-plugin.com/p/hifengzy/dsh-sound-notify/>.
 
-After the 24h window:
-
-```bash
-./scripts/submit-to-catalog.sh
-```
-
-The script checks the age, forks/clones the catalog, adds only
-`data/plugins/hifengzy__dsh-sound-notify.yml`, pushes a branch, and opens the
-PR. If it reports the repo is too young, wait and run it again.
+The source entry and the (already used) submission helper remain in the repo:
+`community/awesome-dsh-plugin.yml` and `scripts/submit-to-catalog.sh`. The
+helper checks the catalog's 24-hour repository-age rule before opening a PR, so
+it can be reused after a rename or for a monorepo subpackage.
 
 Checklist enforced by the catalog CI:
 

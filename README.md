@@ -146,7 +146,7 @@ Tagging `v*` runs `.github/workflows/release.yml`, which attaches the tarball to
 
 ## Community
 
-The plugin is prepared for the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which is what the DSH plugin market (`dshmarket`) reads; `awesome-dsh-plugin.yml` is ready in [`community/`](community/) and the submission helper is `scripts/submit-to-catalog.sh` (the catalog requires the repository to be at least 1 day old). Once merged, searching for “sound” / “notification” in DSH finds it. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
+The plugin is listed in the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which powers the DSH plugin market (`dshmarket`). Search for “sound” / “notification” on the Plugins page to install it. Native DSH Discover is npm-only, so it will also appear there once an `NPM_TOKEN` is configured and a release publishes to npm. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
 
 ## License
 

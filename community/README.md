@@ -4,13 +4,9 @@
 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)
 (category `notify`). The catalog feeds the DSH plugin market (`dshmarket`).
 
-The catalog rejects repositories younger than **1 day**, checked automatically.
-Once the repository is old enough, run the root helper:
-
-```bash
-./scripts/submit-to-catalog.sh
-```
-
-It copies this entry to `data/plugins/hifengzy__dsh-sound-notify.yml` in a fork
-and opens the PR. Do not edit the catalog READMEs by hand — the catalog
-regenerates them from the YAML files.
+This entry was merged in
+[PR #8535](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin/pull/8535)
+and is live in the public catalog feed (category `notify`). The root helper
+`scripts/submit-to-catalog.sh` performs the same submission for future updates;
+it enforces the catalog's 24-hour repository-age rule. Do not edit the catalog
+READMEs by hand — the catalog regenerates them from the YAML files.
