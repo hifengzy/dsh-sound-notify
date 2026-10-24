@@ -8,7 +8,7 @@
 
 Sound notifications for **DeepSeek Harness (DSH)**. When a DSH task finishes, fails, or stops to wait for you, this plugin plays a short sound on the machine running DSH — and gives you a switch for each category.
 
-![Settings: Plugins → Sound notifications](docs/settings.png)
+![Settings: Plugins → Installed plugins → dsh-sound-notify](docs/settings.png)
 
 ## Why
 
@@ -35,39 +35,31 @@ Playback happens in the **DSH host process** with the OS audio player (macOS `af
 
 ## Install
 
-### Desktop app (Electron-owned `desktop` profile)
+### Desktop app (`desktop` profile)
 
-The `dsh` CLI refuses to manage the reserved `desktop` profile, so use the bundled script (idempotent, backs up the patch file):
+Install it as a **managed third-party plugin** from inside DSH — do not copy files into the profile by hand:
+
+1. Open DSH → left sidebar → **Plugins**.
+2. Click **Add plugin**.
+3. Paste the repository address: `https://github.com/hifengzy/dsh-sound-notify` (or the release tarball URL; the npm package name works after publication).
+4. Install, then restart DSH if it asks.
+
+The package then appears under **Plugins → Installed plugins** with its own uninstall and update controls. The three sound switches are on its package page: **Plugins → Installed plugins → dsh-sound-notify**.
+
+> **Why not copy files?** The Plugins page records a managed install in `$DSH_HOME/profiles/desktop/package.json` (`dependencies` plus `dsh.profile.bundles`). Files copied into `node_modules` by hand are invisible to the manager — no installed-plugin row, no uninstall button — and the next DSH desktop update prunes them because they are not a declared dependency.
+
+<details>
+<summary>Upgrading from the v0.1.0 manual install?</summary>
+
+v0.1.0 copied the package into the profile by hand. Run the migration helper, then install through the Plugins page:
 
 ```bash
 git clone https://github.com/hifengzy/dsh-sound-notify.git
 cd dsh-sound-notify
-./scripts/install-desktop.sh
+./scripts/migrate-desktop-legacy-install.sh
 ```
 
-Then **restart the DSH desktop app**. The desktop host does not hot-mount a newly added profile plugin, so the first activation needs a restart.
-
-After restarting: **Plugins → Sound notifications** (sidebar Plugins page) shows the three switches; finish any task to hear `success.aac`.
-
-<details>
-<summary>Manual desktop install (what the script does)</summary>
-
-```bash
-DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
-PROFILE="$DSH_HOME/profiles/desktop"
-DEST="$PROFILE/node_modules/dsh-sound-notify"
-
-cp "$PROFILE/cordis.patch.yml" "$PROFILE/cordis.patch.yml.bak.$(date +%s)"
-mkdir -p "$DEST" && rm -rf "${DEST:?}"/*
-cp -R lib sounds package.json cordis.patch.yml README.md README.zh.md LICENSE "$DEST"/
-
-grep -q "id: sound-notify" "$PROFILE/cordis.patch.yml" || cat >> "$PROFILE/cordis.patch.yml" <<'YAML'
-
-- insert:
-    - id: sound-notify
-      name: 'dsh-sound-notify'
-YAML
-```
+The helper removes the unmanaged copy and mount row while keeping your saved switch values, then prints the managed install steps (paste the repository address into **Add plugin**).
 
 </details>
 
@@ -96,7 +88,7 @@ dsh --profile web --dump-config | grep -A2 sound-notify
 
 ## Settings
 
-**DSH 0.2.x**: sidebar **Plugins → Sound notifications**. The values live in the plugin entry's `config` in the profile patch (`$DSH_HOME/profiles/<profile>/cordis.patch.yml`) and are read live on every notification.
+**DSH 0.2.x**: **Plugins → Installed plugins → dsh-sound-notify** (the package page, beside its install/enable controls). The values live in the plugin entry's `config` in the profile patch (`$DSH_HOME/profiles/<profile>/cordis.patch.yml`) and are read live on every notification.
 
 **DSH 0.1.x**: **Settings → Sound notifications** (registered `sound-notify` settings namespace in `$DSH_HOME/settings.yaml`).
 
@@ -134,7 +126,7 @@ Playback failures (missing file, no audio player) are logged too instead of fail
 
 | DSH | Settings surface | Install |
 | --- | --- | --- |
-| 0.2.x (current, incl. desktop 0.2.1-rc.2) | Plugins page card over volatile plugin `Config` | `dsh plugin add` / GitHub / tarball / desktop script |
+| 0.2.x (current, incl. desktop 0.2.1-rc.3) | Installed-plugin package page over volatile `Config` | app **Add plugin** / `dsh plugin add` / GitHub / tarball |
 | 0.1.x | dedicated settings section over a registered namespace | `dsh plugin add` / GitHub |
 
 The host half only observes the event bus (`session/event`, `agent/status`, `user-questions/request`) and never edits the session log or influences approval decisions (the question waterfall listener always calls `next()`).

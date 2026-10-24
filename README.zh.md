@@ -8,7 +8,7 @@
 
 **DeepSeek Harness（DSH）** 声音提醒插件：任务完成、失败、或停下来等你处理时，在运行 DSH 的机器上播放提示音，并给每一类场景一个开关。
 
-![设置界面：插件 → 声音提醒](docs/settings.png)
+![设置界面：插件 → 已安装插件 → dsh-sound-notify](docs/settings.png)
 
 ## 为什么需要它
 
@@ -35,39 +35,31 @@ DSH 会话经常一跑就是几分钟到几十分钟。没有声音提醒，你�
 
 ## 安装
 
-### 桌面版（Electron 管理的 `desktop` profile）
+### 桌面版（`desktop` profile）
 
-`dsh` CLI 明确拒绝管理保留的 `desktop` profile，因此使用仓库内脚本（幂等，自动备份 patch 文件）：
+请从 DSH 应用内把它作为**第三方插件**安装，不要手工往 profile 目录里复制文件：
+
+1. 打开 DSH → 左侧边栏 → **插件**。
+2. 点击 **添加插件**。
+3. 粘贴仓库地址：`https://github.com/hifengzy/dsh-sound-notify`（也可用 Release tarball 地址；npm 发布后可直接填包名）。
+4. 安装；如果 DSH 提示需要重启，重启即可。
+
+安装后，它会出现在 **插件 → 已安装插件** 中，拥有自己的卸载/更新开关；三个声音开关在它的包页面里：**插件 → 已安装插件 → dsh-sound-notify**。
+
+> **为什么不能手工复制？** 插件页会把“受管理安装”记录在 `$DSH_HOME/profiles/desktop/package.json`（`dependencies` 和 `dsh.profile.bundles`）。手工复制进 `node_modules` 的包对管理器不可见——没有已安装条目、没有卸载按钮——并且下次 DSH 桌面版更新时会被当作未声明的依赖清理掉。
+
+<details>
+<summary>从 v0.1.0 手工安装升级？</summary>
+
+v0.1.0 采用手工复制安装。先运行迁移脚本，再从插件页安装：
 
 ```bash
 git clone https://github.com/hifengzy/dsh-sound-notify.git
 cd dsh-sound-notify
-./scripts/install-desktop.sh
+./scripts/migrate-desktop-legacy-install.sh
 ```
 
-然后**重启 DSH 桌面应用**。桌面宿主不会热挂载新增的 profile 插件，首次启用需要重启。
-
-重启后：侧边栏 **插件 → 声音提醒**，可见三个开关；随便完成一个任务即可听到 `success.aac`。
-
-<details>
-<summary>手工安装步骤（脚本做的就是这些）</summary>
-
-```bash
-DSH_HOME="${DSH_HOME:-$HOME/.dsh}"
-PROFILE="$DSH_HOME/profiles/desktop"
-DEST="$PROFILE/node_modules/dsh-sound-notify"
-
-cp "$PROFILE/cordis.patch.yml" "$PROFILE/cordis.patch.yml.bak.$(date +%s)"
-mkdir -p "$DEST" && rm -rf "${DEST:?}"/*
-cp -R lib sounds package.json cordis.patch.yml README.md README.zh.md LICENSE "$DEST"/
-
-grep -q "id: sound-notify" "$PROFILE/cordis.patch.yml" || cat >> "$PROFILE/cordis.patch.yml" <<'YAML'
-
-- insert:
-    - id: sound-notify
-      name: 'dsh-sound-notify'
-YAML
-```
+脚本会删除不受管理的副本和挂载行（保留你已保存的开关值），并打印受管理安装步骤（在 **添加插件** 里粘贴仓库地址）。
 
 </details>
 
@@ -96,7 +88,7 @@ dsh --profile web --dump-config | grep -A2 sound-notify
 
 ## 设置
 
-**DSH 0.2.x**：侧边栏 **插件 → 声音提醒**。值保存在 profile patch（`$DSH_HOME/profiles/<profile>/cordis.patch.yml`）里插件行的 `config` 中，每次通知时实时读取。
+**DSH 0.2.x**：**插件 → 已安装插件 → dsh-sound-notify**（该插件的包页面，旁边就是启用/卸载控制）。值保存在 profile patch（`$DSH_HOME/profiles/<profile>/cordis.patch.yml`）里插件行的 `config` 中，每次通知时实时读取。
 
 **DSH 0.1.x**：**设置 → 声音提醒**（注册的 `sound-notify` 设置命名空间，写入 `$DSH_HOME/settings.yaml`）。
 
@@ -134,7 +126,7 @@ DSH_SOUND_NOTIFY_LOG=/tmp/dsh-sound-notify.log dsh web
 
 | DSH | 设置界面 | 安装方式 |
 | --- | --- | --- |
-| 0.2.x（当前版本，含桌面版 0.2.1-rc.2） | 插件页卡片，基于插件的 volatile `Config` | `dsh plugin add` / GitHub / tarball / 桌面脚本 |
+| 0.2.x（当前版本，含桌面版 0.2.1-rc.3） | 已安装插件的包页面，基于插件的 volatile `Config` | 应用内 **添加插件** / `dsh plugin add` / GitHub / tarball |
 | 0.1.x | 独立设置区，基于注册的设置命名空间 | `dsh plugin add` / GitHub |
 
 宿主半只观察事件总线（`session/event`、`agent/status`、`user-questions/request`），不修改会话日志，也不影响授权结果（提问 waterfall 监听器始终调用 `next()` 透传）。

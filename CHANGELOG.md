@@ -43,4 +43,5 @@ Initial public release.
 - Installation helpers for the Electron-owned desktop profile and CLI-managed profiles.
 - Test suite (31 `node:test` cases), packaging self-check, CI and release workflows.
 
+[0.1.1]: https://github.com/hifengzy/dsh-sound-notify/releases/tag/v0.1.1
 [0.1.0]: https://github.com/hifengzy/dsh-sound-notify/releases/tag/v0.1.0
