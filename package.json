@@ -1,6 +1,6 @@
 {
   "name": "dsh-sound-notify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Sound notifications for DeepSeek Harness (DSH): play a sound when a task completes, fails, or waits for approval, with per-category switches.",
   "type": "module",
   "main": "lib/index.js",

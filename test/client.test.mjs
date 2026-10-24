@@ -199,29 +199,28 @@ test('bundle registers the expected module and exports the plugin face', () => {
   assert.equal(typeof exports.apply, 'function')
 })
 
-test('DSH 0.2.x: registers one Plugins-page card and no legacy section', () => {
+test('DSH 0.2.x: configures the installed package, never the official items slot', () => {
   const form = fakeForm({ success: true, failure: true, waiting: true })
   const { state } = runPlugin({ configForms: true, form })
-  assert.deepEqual(state.injectSlots, ['plugins.item'])
+  assert.deepEqual(state.injectSlots, ['plugins.bundle.config'])
   assert.equal(state.slots.length, 1)
   const entry = state.slots[0]
-  assert.equal(entry.meta.name, 'plugins.item')
-  assert.equal(entry.meta.id, 'sound-notify')
-  assert.equal(entry.meta.order, 60)
+  assert.equal(entry.meta.name, 'plugins.bundle.config')
+  assert.equal(entry.meta.key, 'dsh-sound-notify')
   assert.equal(entry.meta.locale, 'sound-notify')
-  assert.equal(entry.meta.label(), '声音提醒')
   assert.equal(entry.meta.inject().scope, form)
   assert.equal(state.locales.dicts.zh.nav, '声音提醒')
   assert.equal(state.locales.dicts.en.nav, 'Sound notifications')
+  assert.equal(state.slots.some((slot) => slot.meta.name === 'plugins.item'), false,
+    'third-party plugins must not register the built-in configuration list')
 })
 
-test('DSH 0.2.x card: summary is one line, page renders three switches', () => {
+test('DSH 0.2.x installed-package page renders three switches', () => {
   const form = fakeForm({ success: true, failure: false, waiting: true })
   const { state } = runPlugin({ configForms: true, form })
   const t = (key) => state.locales.dicts.zh[key] ?? key
-  const card = state.components['plugins.item']
-  assert.equal(card({ t, view: 'summary', scope: form }), '任务完成、失败或需要你处理时播放提示音。')
-  const tree = card({ t, view: 'page', scope: form })
+  const page = state.components['plugins.bundle.config']
+  const tree = page({ t, scope: form })
   const text = textOf(tree)
   assert.match(text, /任务完成/)
   assert.match(text, /任务失败/)
@@ -231,28 +230,28 @@ test('DSH 0.2.x card: summary is one line, page renders three switches', () => {
   assert.deepEqual(switches.map((element) => element.props.checked), [true, false, true])
 })
 
-test('DSH 0.2.x card: toggling writes through the config form', async () => {
+test('DSH 0.2.x installed-package page: toggling writes through the config form', async () => {
   const form = fakeForm({ success: true, failure: true, waiting: true })
   const { state } = runPlugin({ configForms: true, form })
   const t = (key) => state.locales.dicts.zh[key] ?? key
-  const card = state.components['plugins.item']
-  const switches = switchesOf(card({ t, view: 'page', scope: form }))
+  const page = state.components['plugins.bundle.config']
+  const switches = switchesOf(page({ t, scope: form }))
   switches[0].props.onChange(false)
   await flush()
   assert.deepEqual(form.writes, [{ field: 'success', next: false }])
 })
 
-test('DSH 0.2.x card: loading, unavailable, read-only and failed states', async () => {
+test('DSH 0.2.x installed-package page: loading, unavailable and read-only states', async () => {
   const t = (key) => key
   const loading = runPlugin({ configForms: true, form: fakeForm(undefined, { status: 'loading' }) })
-  assert.match(textOf(loading.state.components['plugins.item']({ t, view: 'page', scope: loading.state.form })), /loading/)
+  assert.match(textOf(loading.state.components['plugins.bundle.config']({ t, scope: loading.state.form })), /loading/)
 
   const unavailable = runPlugin({ configForms: true, form: fakeForm(undefined, { status: 'unavailable' }) })
-  assert.equal(switchesOf(unavailable.state.components['plugins.item']({ t, view: 'page', scope: unavailable.state.form })).length, 0)
+  assert.equal(switchesOf(unavailable.state.components['plugins.bundle.config']({ t, scope: unavailable.state.form })).length, 0)
 
   const readOnlyForm = fakeForm({}, { writable: false })
   const readOnly = runPlugin({ configForms: true, form: readOnlyForm })
-  const tree = readOnly.state.components['plugins.item']({ t, view: 'page', scope: readOnlyForm })
+  const tree = readOnly.state.components['plugins.bundle.config']({ t, scope: readOnlyForm })
   assert.equal(switchesOf(tree).every((element) => element.props.disabled === true), true)
 })
 

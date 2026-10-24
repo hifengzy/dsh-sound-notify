@@ -86,7 +86,14 @@ expect(/name:\s*['"]?dsh-sound-notify['"]?/.test(patch), 'cordis.patch.yml must 
 const client = readRequired('lib/client.js')
 expect(client.includes('window.__ModuleLoader__.load('), 'lib/client.js must register with window.__ModuleLoader__.load')
 expect(client.includes("id: 'dsh-sound-notify'"), 'lib/client.js must register module id dsh-sound-notify')
-expect(client.includes('plugins.item'), 'lib/client.js must register the Settings → Plugins card')
+expect(
+  client.includes('plugins.bundle.config'),
+  'lib/client.js must configure the installed package through plugins.bundle.config',
+)
+expect(
+  !client.includes("'plugins.item'") && !client.includes('"plugins.item"'),
+  'lib/client.js must not register plugins.item (that slot is the built-in configuration list)',
+)
 
 const host = await import(new URL('../lib/index.js', import.meta.url))
 expect(host.name === 'sound-notify', 'host entry must export name sound-notify')
