@@ -3,6 +3,7 @@
 **English** | [简体中文](README.zh.md)
 
 [![CI](https://github.com/hifengzy/dsh-sound-notify/actions/workflows/ci.yml/badge.svg)](https://github.com/hifengzy/dsh-sound-notify/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/dsh-sound-notify.svg)](https://www.npmjs.com/package/dsh-sound-notify)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DSH plugin](https://img.shields.io/badge/DSH-plugin-4d6bfe)](https://github.com/topics/dsh-plugin)
 
@@ -41,7 +42,7 @@ Install it as a **managed third-party plugin** from inside DSH — do not copy f
 
 1. Open DSH → left sidebar → **Plugins**.
 2. Click **Add plugin**.
-3. Paste the repository address: `https://github.com/hifengzy/dsh-sound-notify` (or the release tarball URL; the npm package name works after publication).
+3. Paste the repository address: `https://github.com/hifengzy/dsh-sound-notify` (or the release tarball URL, or the npm package name `dsh-sound-notify`).
 4. Install, then restart DSH if it asks.
 
 The package then appears under **Plugins → Installed plugins** with its own uninstall and update controls. The three sound switches are on its package page: **Plugins → Installed plugins → dsh-sound-notify**.
@@ -74,7 +75,7 @@ dsh plugin --profile web add github:hifengzy/dsh-sound-notify
 # prebuilt tarball attached to the latest GitHub Release (works today)
 dsh plugin --profile web add https://github.com/hifengzy/dsh-sound-notify/releases/latest/download/dsh-sound-notify.tgz
 
-# npm (after the package is published; see docs/PUBLISHING.md)
+# from npm (published: https://www.npmjs.com/package/dsh-sound-notify)
 dsh plugin --profile web add dsh-sound-notify
 ```
 
@@ -142,11 +143,11 @@ npm pack        # prebuilt tarball for releases
 
 CI (`.github/workflows/ci.yml`) runs the test suite on Node 20/22/24, verifies the package, and performs a real install smoke test against the latest published `@deepseek-ai/dsh`: it creates a web profile, installs the packed tarball with `dsh plugin add`, and asserts the plugin composes into the profile tree.
 
-Tagging `v*` runs `.github/workflows/release.yml`, which attaches the tarball to a GitHub Release and publishes to npm when an `NPM_TOKEN` secret is configured. See [docs/PUBLISHING.md](docs/PUBLISHING.md) for the npm-token and catalog-submission steps.
+Tagging `v*` runs `.github/workflows/release.yml`, which attaches the tarball to a GitHub Release and publishes to npm with provenance (the `NPM_TOKEN` secret is configured). See [docs/PUBLISHING.md](docs/PUBLISHING.md) for the token and catalog-submission details.
 
 ## Community
 
-The plugin is listed in the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which powers the DSH plugin market (`dshmarket`). Search for “sound” / “notification” on the Plugins page to install it. Native DSH Discover is npm-only, so it will also appear there once an `NPM_TOKEN` is configured and a release publishes to npm. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
+The plugin is listed in the [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) catalog (`category: notify`), which powers the DSH plugin market (`dshmarket`). Search for “sound” / “notification” on the Plugins page to install it. It is published on npm as [`dsh-sound-notify`](https://www.npmjs.com/package/dsh-sound-notify), so the native DSH Discover feed — which only indexes npm packages and is rebuilt from npm daily — picks it up too. Repo topics: `dsh-plugin`, `deepseek-harness`, `dsh`.
 
 ## License
 

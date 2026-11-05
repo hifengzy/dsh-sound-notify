@@ -3,6 +3,7 @@
 [English](README.md) | **简体中文**
 
 [![CI](https://github.com/hifengzy/dsh-sound-notify/actions/workflows/ci.yml/badge.svg)](https://github.com/hifengzy/dsh-sound-notify/actions/workflows/ci.yml)
+[![npm version](https://img.shields.io/npm/v/dsh-sound-notify.svg)](https://www.npmjs.com/package/dsh-sound-notify)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![DSH plugin](https://img.shields.io/badge/DSH-plugin-4d6bfe)](https://github.com/topics/dsh-plugin)
 
@@ -41,7 +42,7 @@ DSH 会话经常一跑就是几分钟到几十分钟。没有声音提醒，你�
 
 1. 打开 DSH → 左侧边栏 → **插件**。
 2. 点击 **添加插件**。
-3. 粘贴仓库地址：`https://github.com/hifengzy/dsh-sound-notify`（也可用 Release tarball 地址；npm 发布后可直接填包名）。
+3. 粘贴仓库地址：`https://github.com/hifengzy/dsh-sound-notify`（也可用 Release tarball 地址，或直接填 npm 包名 `dsh-sound-notify`）。
 4. 安装；如果 DSH 提示需要重启，重启即可。
 
 安装后，它会出现在 **插件 → 已安装插件** 中，拥有自己的卸载/更新开关；三个声音开关在它的包页面里：**插件 → 已安装插件 → dsh-sound-notify**。
@@ -74,7 +75,7 @@ dsh plugin --profile web add github:hifengzy/dsh-sound-notify
 # 安装最新 GitHub Release 上的预构建 tarball（当前可用）
 dsh plugin --profile web add https://github.com/hifengzy/dsh-sound-notify/releases/latest/download/dsh-sound-notify.tgz
 
-# npm（包发布后可用；见 docs/PUBLISHING.md）
+# 从 npm 安装（已发布：https://www.npmjs.com/package/dsh-sound-notify）
 dsh plugin --profile web add dsh-sound-notify
 ```
 
@@ -142,11 +143,11 @@ npm pack        # 生成发布用 tarball
 
 CI（`.github/workflows/ci.yml`）在 Node 20/22/24 上跑测试与打包自检，并对最新发布的 `@deepseek-ai/dsh` 做真实安装冒烟测试：创建 web profile、用 `dsh plugin add` 安装打包出的 tarball，并断言插件已组合进 profile 树。
 
-推送 `v*` tag 会触发 `.github/workflows/release.yml`：把 tarball 附加到 GitHub Release，并在配置了 `NPM_TOKEN` secret 时发布到 npm。npm token 配置与目录投稿步骤见 [docs/PUBLISHING.md](docs/PUBLISHING.md)。
+推送 `v*` tag 会触发 `.github/workflows/release.yml`：把 tarball 附加到 GitHub Release，并带 provenance 发布到 npm（`NPM_TOKEN` secret 已配置）。npm token 与目录投稿细节见 [docs/PUBLISHING.md](docs/PUBLISHING.md)。
 
 ## 社区收录
 
-插件已收录进 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 目录（`category: notify`），该目录也是 DSH 插件市场（`dshmarket`）的数据源；在 DSH 的插件页搜索「sound」/「通知」即可找到并安装。原生 DSH Discover 只索引 npm 包，配置 `NPM_TOKEN` 并发布到 npm 后也会出现在那里。仓库 topic：`dsh-plugin`、`deepseek-harness`、`dsh`。
+插件已收录进 [awesome-dsh-plugin](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin) 目录（`category: notify`），该目录也是 DSH 插件市场（`dshmarket`）的数据源；在 DSH 的插件页搜索「sound」/「通知」即可找到并安装。已发布到 npm（[`dsh-sound-notify`](https://www.npmjs.com/package/dsh-sound-notify)），因此原生 DSH Discover（只索引 npm 包、每天从 npm 重建一次）也会收录它。仓库 topic：`dsh-plugin`、`deepseek-harness`、`dsh`。
 
 ## 许可证
 
